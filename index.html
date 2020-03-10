@@ -1,0 +1,53 @@
+<p>rock, paper, scissors</p>
+<script>
+    function computerPlay(){
+        let num = Math.floor(Math.random()*3);
+        if (num == 0) return 'rock';
+        else if (num == 1) return 'paper';
+        else return 'scissors';
+    }
+
+    function playRound(playerSelection, computerSelection){
+        if (playerSelection == computerSelection) return 'Draw!';
+        else if ((playerSelection == 'rock' && computerSelection == 'paper') || 
+            (playerSelection == 'paper' && computerSelection == 'scissors') ||
+            (playerSelection == 'scissors' && computerSelection == 'rock')) return 'You lose!';
+        else if (playerSelection == 0) return false; 
+        else return 'You won!';
+    }
+
+    /*const playerSelection = 'rock';
+    const computerSelection = computerPlay();
+    console.log(playRound(playerSelection, computerSelection));   */
+
+    function game(){
+        let playerSelection;
+        let computerSelection;
+        let result;
+        let player = 0;
+        let computer = 0;
+        for (let i=1; i<=5; i++){
+            playerSelection = prompt('Round '+i+'/5: Pick rock, paper or scissors!','rock');
+            playerSelection.toLocaleLowerCase();
+            if (playerSelection !== ('rock' || 'paper' || 'scissors')){
+                alert('Wrong input! Try again!');
+                i--;
+                playerSelection = 0;
+            }
+            computerSelection = computerPlay();
+            result = playRound(playerSelection, computerSelection);
+            if (result == 'You won!'){
+                player++;
+                alert(result);
+            }
+            else if (result == 'You lose!'){
+                computer++;
+                alert(result);
+            }
+            else alert(result);
+        }
+        if (player > computer)  alert('You won the game!\nYou: '+player+'\nComputer: '+computer);
+        else if (player < computer) alert('You lose the game!\nYou: '+player+'\nComputer: '+computer);   
+        else alert('It is draw!\nYou: '+player+'\nComputer: '+computer);
+    }    
+</script>
