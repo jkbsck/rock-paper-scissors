@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Winner takes all</title>
+    </head>
+    <body>
+        <div class="title title-container">
+            <div id="welcome" class="title">WELCOME TO OUR GAME</div>
+            <div id="motto" class="title">Win and live or lose and die</div>
+            <div id="player-count" class="title">PLAYER COUNT
+                <div id="count1" class="title">0</div>
+            </div>
+            <div id="victim-count" class="title">VICTIM COUNT
+                <div id="count2" class="title">0</div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="rock">ROCK</button>
+            <button id="paper">PAPER</button>
+            <button id="scissors">SCISSORS</button>
+        </div>
+        <div class="choice">
+            <div id="player-choice">PLAYER CHOICE</div>
+            <div id="our-choice">OUR CHOICE</div>
+            <div id="player-choice-item"></div>
+            <div id="our-choice-item"></div>
+        </div>
+        <div id="round-result"></div>
+        <div class="score">
+            <div id="player-score">PLAYER SCORE</div>
+            <div id="our-score">OUR SCORE</div>
+            <div id="player-score-item">0</div>
+            <div id="our-score-item">0</div>
+        </div>
+        
+    </body>
+</html>    
+
+<script>
+    function computerPlay(){
+        let num = Math.floor(Math.random()*3);
+        if (num == 0) return 'rock';
+        else if (num == 1) return 'paper';
+        else return 'scissors';
+    }
+
+    function playRound(playerSelection, computerSelection){
+        if (playerSelection == computerSelection) return 'Draw!';
+        else if ((playerSelection == 'rock' && computerSelection == 'paper') || 
+            (playerSelection == 'paper' && computerSelection == 'scissors') ||
+            (playerSelection == 'scissors' && computerSelection == 'rock')) return 'You lose!';
+        else if (playerSelection == 0) return false; 
+        else return 'You won!';
+    }
+    
+    function game(playerSelection, computerSelection){
+       
+        let result;
+        let existingImage;
+        const playerScore = document.querySelector("#player-score-item");
+        const computerScore = document.querySelector("#our-score-item");
+        const roundResult = document.querySelector("#round-result");
+
+        if ((existingImage = roundResult.querySelector('img')) !== null){
+        existingImage.remove();       
+        }
+
+        const winner = document.createElement('img');
+        winner.setAttribute('src', '/home/jkbsck/Desktop/the-odin-project/the-odin-project/rock-paper-scissors/winner.jpg');
+        winner.setAttribute('height', '100px');
+        winner.setAttribute('width', '100px');
+        winner.setAttribute('style', 'margin: 10px auto auto auto');
+
+        
+        const draw = document.createElement('img');
+        draw.setAttribute('src', '/home/jkbsck/Desktop/the-odin-project/the-odin-project/rock-paper-scissors/draw.jpg');
+        draw.setAttribute('height', '100px');
+        draw.setAttribute('width', '100px');
+        draw.setAttribute('style', 'margin: 10px auto auto auto');
+       
+        const looser = document.createElement('img');
+        looser.setAttribute('src', '/home/jkbsck/Desktop/the-odin-project/the-odin-project/rock-paper-scissors/looser.jpg');
+        looser.setAttribute('height', '100px');
+        looser.setAttribute('width', '100px');
+        looser.setAttribute('style', 'margin: 10px auto auto auto');
+
+        result = playRound(playerSelection, computerSelection);
+
+        if (result == 'You won!'){
+            playerScore.textContent++;
+            roundResult.textContent = result;
+            roundResult.appendChild(winner);
+        }
+        else if (result == 'You lose!'){
+            computerScore.textContent++;
+            roundResult.textContent = result;
+            roundResult.appendChild(looser);
+            
+        }
+        else {roundResult.textContent = result;
+            roundResult.appendChild(draw);
+        }
+        if ((playerScore.textContent === '5') || (computerScore.textContent === '5')){
+            if (playerScore.textContent > computerScore.textContent)  alert('You won the game!\nYou: '+playerScore.textContent+'\nComputer: '+computerScore.textContent);
+            else if (playerScore.textContent < computerScore.textContent){
+                alert('You lose the game!\nYou: '+playerScore.textContent+'\nComputer: '+computerScore.textContent);
+                victimCount.textContent++;
+            }
+            playerScore.textContent = '0';
+            computerScore.textContent = '0';
+            playerChoice.textContent = "";
+            ourChoice.textContent = "";
+            existingImage = roundResult.querySelector('img');
+            existingImage.remove();
+            roundResult.textContent = "";
+            playerCount.textContent++;
+        }
+    }    
+        //if (player > computer)  alert('You won the game!\nYou: '+player+'\nComputer: '+computer);
+        //else if (player < computer) alert('You lose the game!\nYou: '+player+'\nComputer: '+computer);   
+        //else alert('It is draw!\nYou: '+player+'\nComputer: '+computer);    
+
+    let playerSelection;
+    let computerSelection;
+    let playerChoice;
+    let ourChoice;
+
+    let playerCount = document.querySelector("#count1");
+    let victimCount = document.querySelector("#count2");
+
+    const buttons = Array.from(document.querySelectorAll('button'));
+    buttons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            playerSelection = button.id;
+            computerSelection = computerPlay();
+
+            playerChoice = document.querySelector('#player-choice-item');
+            playerChoice.textContent = playerSelection;
+            ourChoice = document.querySelector('#our-choice-item');
+            ourChoice.textContent = computerSelection;
+
+            game(playerSelection, computerSelection);
+        });
+    });
+
+</script>
+<style>
+    html {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-size: 18px;
+        background-image: url(https://img.wallpapersafari.com/desktop/1920/1080/56/1/SLH0FW.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100vh;
+        width: 100vw;
+        color: white;
+    }
+    .title-container {
+        display: grid;
+        position: relative;
+        grid-template-columns: 70vw 15vw;
+        grid-template-rows: 8vh 7vh 3vh 5vh 5vh;
+        grid-gap: 10px;
+        padding: 10px;
+        margin: 10px;
+        color: white;
+        /*border: solid;*/
+    }
+    .title {
+        /*border: solid;*/
+        text-align: center;
+    }
+    #welcome {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        font-size: 30px;
+    }
+    #motto {
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+        font-size: 18px;
+    }
+    #player-count {
+        grid-column: 2 / 3;
+        grid-row: 4 / 5;
+        font-size: 14px;
+    }
+    #victim-count {
+        grid-column: 2 / 3;
+        grid-row: 5 / 6;
+        font-size: 14px;
+    }
+    #count1 {
+        color: red;
+        font-size: 18px;
+    }
+    #count2 {
+        color: red;
+        font-size: 18px;
+    }
+    .choice {
+        display: grid;
+        position: relative;
+        grid-template-columns: 50vw 50vw;
+        grid-template-rows: 70px 100px;
+        padding: 15px;
+        margin: 15px;
+        text-align: center; 
+    }
+    .score {
+        display: grid;
+        position: relative;
+        grid-template-columns: 50vw 50vw;
+        grid-template-rows: 70px 100px;
+        padding: 15px;
+        margin: 15px;
+        text-align: center;
+    }
+    #round-result {
+        display: grid;
+        position: relative;
+        grid-template-rows: auto auto;
+        text-align: center;
+        padding: 0 0 50px 0px;
+    }
+    button {
+        margin-left: 50px;
+        color: red;
+        background-color: rgb(230, 184, 230);
+        border-radius: 5px;
+    }
+</style>
